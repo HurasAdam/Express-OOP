@@ -26,4 +26,4 @@ function getEnv(key: string, defaultValue?: string): string {
 }
 
 export const MONGO_URI = getEnv("MONGO_URI");
-export const SERVER_PORT = getEnv("SERVER_PORT");
+export const SERVER_PORT = getEnv("SERVER_PORT", "4000");
