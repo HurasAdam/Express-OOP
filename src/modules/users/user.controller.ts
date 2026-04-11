@@ -1,11 +1,13 @@
-export class userController {
+import { UserService } from "./user.service";
+
+export class UserController {
   private userService;
-  constructor(userService) {
+  constructor(userService: UserService) {
     this.userService = userService;
   }
 
-  create(req, res) {
-    console.log("QUERY", req.query);
-    return res.status(200).json("AA");
-  }
+  find = async (req, res) => {
+    const users = await this.userService.find();
+    return res.status(200).json(users);
+  };
 }

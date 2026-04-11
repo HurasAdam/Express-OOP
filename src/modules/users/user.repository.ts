@@ -1,33 +1,26 @@
+import { Model } from "mongoose";
+
 export interface IUSER {
   id: number;
   name: string;
   surname: string;
 }
 
-export class userRepository {
-  private users: IUSER[] = [
-    { id: 1, name: "Jurek", surname: "Owsiak" },
-    { id: 2, name: "Romek", surname: "Kowalski" },
-    { id: 3, name: "Czesław", surname: "Nowak" },
-  ];
-
-  constructor() {}
-
-  findAll() {
-    return this.users;
+export class UserRepository {
+  private model;
+  constructor(model: Model<any>) {
+    this.model = model;
   }
 
-  findById(id: number) {
-    return this.users.find((u) => u.id === id);
+  find() {
+    return this.model.find({});
   }
 
-  create(user) {
-    const newUser = { id: this.users.length + 1, ...user };
-    this.users.push(newUser);
-    return newUser;
+  findOneById(id: number) {
+    return this.model.findById(id);
   }
 
   deleteOne() {
-    console.log("USUWAMY");
+    console.log("TODO");
   }
 }

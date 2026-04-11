@@ -4,6 +4,7 @@
  */
 
 import { Router } from "express";
+import { authRoutes } from "../modules/auth/auth.route";
 import { userRoutes } from "../modules/users/user.route";
 
 export const routes = Router();
@@ -23,3 +24,4 @@ routes.get("/", (req, res) => {
 });
 
 routes.use("/users", userRoutes);
+routes.use("/auth", authRoutes);

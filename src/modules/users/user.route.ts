@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { userController } from "./user.controller";
-import { userRepository } from "./user.repository";
-import { userService } from "./user.service";
+import { UserController } from "./user.controller";
+import UserModel from "./user.model";
+import { UserRepository } from "./user.repository";
+import { UserService } from "./user.service";
 
 /**
  * prefix
@@ -9,7 +10,7 @@ import { userService } from "./user.service";
  */
 
 export const userRoutes = Router();
-const repository = new userRepository();
-const service = new userService(repository);
-const controller = new userController(service);
-userRoutes.get("/", controller.create);
+const repository = new UserRepository(UserModel);
+const service = new UserService(repository);
+const controller = new UserController(service);
+userRoutes.get("/", controller.find);
