@@ -16,7 +16,7 @@ export class UserRepository {
     return this.model.find({});
   }
 
-  findOneById(id: number) {
+  findOneById(id: string) {
     return this.model.findById(id);
   }
 

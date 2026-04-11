@@ -8,8 +8,9 @@ export async function bootstrap(app: Express, port: string) {
   try {
     await initDatabase();
     console.log("🟢 Database has been connected");
-    initMiddleware(app);
+
     initRoutes(app);
+    initMiddleware(app);
     initHttpServer(app, port);
   } catch (error) {
     console.log(error);

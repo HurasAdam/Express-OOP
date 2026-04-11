@@ -13,4 +13,9 @@ export const userRoutes = Router();
 const repository = new UserRepository(UserModel);
 const service = new UserService(repository);
 const controller = new UserController(service);
+
+/**
+ * ROUTES
+ */
 userRoutes.get("/", controller.find);
+userRoutes.get("/:userId", controller.findOne);

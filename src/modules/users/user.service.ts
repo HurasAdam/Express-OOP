@@ -3,8 +3,11 @@ import { UserRepository } from "./user.repository";
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
-  find = () => {
-    const users = this.userRepository.find();
-    return users;
-  };
+  async find() {
+    return await this.userRepository.find();
+  }
+
+  async findOne(userId: string) {
+    return await this.userRepository.findOneById(userId);
+  }
 }
