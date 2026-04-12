@@ -17,5 +17,7 @@ const controller = new UserController(service);
 /**
  * ROUTES
  */
+
 userRoutes.get("/", controller.find);
 userRoutes.get("/:userId", controller.findOne);
+userRoutes.post("/create", controller.create);

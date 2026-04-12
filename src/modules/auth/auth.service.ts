@@ -1,24 +1,18 @@
-import { AuthRepository } from "./auth.repository";
+import { UserRepository } from "../users/user.repository";
 
 export class AuthService {
   private repository;
-  constructor(authRepository: AuthRepository) {
-    this.repository = authRepository;
+  constructor(userRepository: UserRepository) {
+    this.repository = userRepository;
   }
 
-  async findUserByEmail(email: string) {
-    return this.repository.findUserByEmail(email);
-  }
-
-  async register(data: any) {
-    const { name, surname, email, password } = data;
-    const user = await this.repository.findUserByEmail(data.email);
-    if (user) throw new Error("Email already taken");
-    return this.repository.createUser({
-      name,
-      surname,
-      email,
-      password,
-    });
+  async findMe(id: string) {
+    const user = await this.repository.findOneById(id);
+    return {
+      id: user._id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+    };
   }
 }

@@ -1,5 +1,6 @@
 import { validateObjectIdParam } from "../../common/dto/param-id.dto";
 import catchErrors from "../../utils/catchErrors";
+import { createUserDto } from "./dto/create-user.dto";
 import { UserService } from "./user.service";
 
 export class UserController {
@@ -7,6 +8,12 @@ export class UserController {
   constructor(userService: UserService) {
     this.service = userService;
   }
+
+  create = catchErrors(async ({ body }, res) => {
+    const payload = createUserDto.parse(body);
+    await this.service.create(payload);
+    return res.sendStatus(201);
+  });
 
   find = async (req, res) => {
     const users = await this.service.find();

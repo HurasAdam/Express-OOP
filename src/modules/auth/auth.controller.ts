@@ -1,3 +1,4 @@
+import catchErrors from "../../utils/catchErrors";
 import { AuthService } from "./auth.service";
 
 export class AuthController {
@@ -6,14 +7,12 @@ export class AuthController {
     this.service = authService;
   }
 
-  login = async () => {};
+  login = catchErrors(async (req, res) => {
+    return res.status(200).json("USER HERE");
+  });
 
-  register = async (req, res) => {
-    console.log("REGISTER CHECK", req.body);
-    const data = req.body;
-    await this.service.register(data);
-    return res.status(201).json({
-      message: "registered",
-    });
-  };
+  findMe = catchErrors(async (req, res) => {
+    const user = await this.service.findMe("69d96c62486202e673deb59f");
+    return res.status(200).json(user);
+  });
 }

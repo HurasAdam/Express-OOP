@@ -1,7 +1,7 @@
 import { Router } from "express";
 import UserModel from "../users/user.model";
+import { UserRepository } from "../users/user.repository";
 import { AuthController } from "./auth.controller";
-import { AuthRepository } from "./auth.repository";
 import { AuthService } from "./auth.service";
 
 export const authRoutes = Router();
@@ -10,9 +10,9 @@ export const authRoutes = Router();
  * prefix
  * /auth
  */
-const repository = new AuthRepository(UserModel);
+const repository = new UserRepository(UserModel);
 const service = new AuthService(repository);
 const controller = new AuthController(service);
 
-authRoutes.post("/login", controller.login);
-authRoutes.post("/register", controller.register);
+authRoutes.get("/me", controller.findMe);
+authRoutes.get("/login", controller.login);
