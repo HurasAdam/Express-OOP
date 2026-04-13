@@ -1,5 +1,6 @@
 import catchErrors from "../../utils/catchErrors";
 import { AuthService } from "./auth.service";
+import { LoginUserDto } from "./dto/login-user.dto";
 
 export class AuthController {
   private service;
@@ -7,7 +8,9 @@ export class AuthController {
     this.service = authService;
   }
 
-  login = catchErrors(async (req, res) => {
+  login = catchErrors(async ({ body }, res) => {
+    const payload: LoginUserDto = body;
+    await this.service.login(payload);
     return res.status(200).json("USER HERE");
   });
 
@@ -15,4 +18,6 @@ export class AuthController {
     const user = await this.service.findMe("69d96c62486202e673deb59f");
     return res.status(200).json(user);
   });
+
+  logout = catchErrors(async (req, res) => {});
 }

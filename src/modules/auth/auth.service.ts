@@ -1,13 +1,22 @@
+import { SessionRepository } from "../sessions/session.repository";
 import { UserRepository } from "../users/user.repository";
+import { LoginUserDto } from "./dto/login-user.dto";
 
 export class AuthService {
-  private repository;
-  constructor(userRepository: UserRepository) {
-    this.repository = userRepository;
+  private userRepository: UserRepository;
+  private sessionRepository: SessionRepository;
+  constructor(
+    userRepository: UserRepository,
+    sessionRepository: SessionRepository,
+  ) {
+    this.userRepository = userRepository;
+    this.sessionRepository = sessionRepository;
   }
 
+  async login(payload: LoginUserDto) {}
+
   async findMe(id: string) {
-    const user = await this.repository.findOneById(id);
+    const user = await this.userRepository.findOneById(id);
     return {
       id: user._id,
       name: user.name,
