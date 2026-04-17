@@ -13,6 +13,7 @@ export async function bootstrap(app: Express, port: string) {
     initRoutes(app);
 
     initMiddleware(app);
+
     initHttpServer(app, port);
   } catch (error) {
     console.log(error);

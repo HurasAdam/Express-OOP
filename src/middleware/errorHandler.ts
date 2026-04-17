@@ -1,5 +1,7 @@
 import { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
+import AppError from "../utils/appError";
+import { handleAppError } from "./handleAppError";
 import { handleZodError } from "./handleZodError";
 
 export const errorHandler: ErrorRequestHandler = async (
@@ -13,6 +15,10 @@ export const errorHandler: ErrorRequestHandler = async (
 
   if (error instanceof ZodError) {
     return handleZodError(res, error);
+  }
+
+  if (error instanceof AppError) {
+    return handleAppError(res, error);
   }
 
   return res.status(500).send("Internal Server Error");

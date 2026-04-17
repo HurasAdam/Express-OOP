@@ -1,3 +1,7 @@
+import AppErrorCode from "../../constants/appErrorCode";
+import { FORBIDDEN, UNAUTHORIZED } from "../../constants/http";
+import appAssert from "../../utils/appAssert";
+import { refreshTokenSignOptions, signToken } from "../../utils/jwt";
 import { SessionRepository } from "../sessions/session.repository";
 import { UserRepository } from "../users/user.repository";
 import { LoginUserDto } from "./dto/login-user.dto";
@@ -14,7 +18,49 @@ export class AuthService {
   }
 
   async login(payload: LoginUserDto) {
-    this.userRepository.findByEmailWithRole(payload.email);
+    const user = await this.userRepository.findByEmailWithRole(payload.email);
+    appAssert(
+      user,
+      UNAUTHORIZED,
+      "Invalid email or password",
+      AppErrorCode.InvalidCredentials,
+    );
+
+    const isValid = user.comparePassword(payload.password);
+    appAssert(
+      isValid,
+      UNAUTHORIZED,
+      "Invalid email or password",
+      AppErrorCode.InvalidCredentials,
+    );
+    appAssert(
+      user.isActive,
+      FORBIDDEN,
+      "Account is disabled",
+      AppErrorCode.AccountDisabled,
+    );
+
+    // if valid crednetials
+    user.lastLogin = new Date();
+    await user.save();
+    const userId = user._id;
+
+    const session = await this.sessionRepository.create(userId);
+    const sessionInfo = {
+      sessionId: session._id,
+    };
+
+    const refreshToken = signToken(sessionInfo, refreshTokenSignOptions);
+    const accessToken = signToken({
+      ...sessionInfo,
+      userId,
+    });
+
+    return {
+      user: user.omitPassword(),
+      accessToken,
+      refreshToken,
+    };
   }
 
   async me(id: string) {

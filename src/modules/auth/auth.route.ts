@@ -19,5 +19,5 @@ const service = new AuthService(userRepository, sessionRepository);
 const controller = new AuthController(service);
 
 authRoutes.get("/me", controller.findMe);
-authRoutes.get("/login", controller.login);
+authRoutes.post("/login", controller.login);
 authRoutes.get("/logout", controller.logout);

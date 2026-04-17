@@ -4,10 +4,14 @@ export class SessionRepository {
     this.model = model;
   }
 
-  find(){
+  async create(userId: string) {
+    return this.model.create({ userId });
+  }
+
+  find() {
     return this.model.find();
-  };
-  deleteOne(sessionId:string){
+  }
+  deleteOne(sessionId: string) {
     return this.model.findByIdAndDelete(sessionId);
-  };
+  }
 }

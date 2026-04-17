@@ -3,6 +3,8 @@ const enum AppErrorCode {
   UserNotFound = "UserNotFound",
   Forbidden = "Forbidden",
   InvalidRole = "InvalidRole",
+  InvalidCredentials = "InvalidCredentials",
+  AccountDisabled = "AccountDisabled",
 }
 
 export default AppErrorCode;

@@ -1,4 +1,8 @@
 import catchErrors from "../../utils/catchErrors";
+import {
+  getAccessTokenCookieOptions,
+  getRefreshTokenCookieOptions,
+} from "../../utils/cookies";
 import { AuthService } from "./auth.service";
 import { LoginUserDto } from "./dto/login-user.dto";
 
@@ -10,8 +14,20 @@ export class AuthController {
 
   login = catchErrors(async ({ body }, res) => {
     const payload: LoginUserDto = body;
-    await this.service.login(payload);
-    return res.status(200).json("USER HERE");
+    const serviceResponse = await this.service.login(payload);
+
+    res.cookie(
+      "accessToken",
+      serviceResponse.accessToken,
+      getAccessTokenCookieOptions(),
+    );
+    res.cookie(
+      "refreshToken",
+      serviceResponse.refreshToken,
+      getRefreshTokenCookieOptions(),
+    );
+
+    return res.status(200).json(serviceResponse.user);
   });
 
   findMe = catchErrors(async (req, res) => {
