@@ -1,5 +1,7 @@
+import { OK } from "../../constants/http";
 import catchErrors from "../../utils/catchErrors";
 import {
+  clearAuthCookies,
   getAccessTokenCookieOptions,
   getRefreshTokenCookieOptions,
 } from "../../utils/cookies";
@@ -35,5 +37,11 @@ export class AuthController {
     return res.status(200).json(user);
   });
 
-  logout = catchErrors(async (req, res) => {});
+  logout = catchErrors(async ({ cookies }, res) => {
+    await this.service.logout(cookies.accessToken);
+
+    return clearAuthCookies(res)
+      .status(OK)
+      .json({ message: "Logout successful" });
+  });
 }

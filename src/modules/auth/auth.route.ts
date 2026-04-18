@@ -1,10 +1,6 @@
 import { Router } from "express";
-import SessionModel from "../sessions/session.model";
-import { SessionRepository } from "../sessions/session.repository";
-import UserModel from "../users/user.model";
-import { UserRepository } from "../users/user.repository";
 import { AuthController } from "./auth.controller";
-import { AuthService } from "./auth.service";
+import { authGuard, authService } from "./auth.provider";
 
 export const authRoutes = Router();
 
@@ -12,12 +8,9 @@ export const authRoutes = Router();
  * prefix
  * /auth
  */
-const userRepository = new UserRepository(UserModel);
-const sessionRepository = new SessionRepository(SessionModel);
 
-const service = new AuthService(userRepository, sessionRepository);
-const controller = new AuthController(service);
+const controller = new AuthController(authService);
 
 authRoutes.get("/me", controller.findMe);
 authRoutes.post("/login", controller.login);
-authRoutes.get("/logout", controller.logout);
+authRoutes.get("/logout", authGuard.authenticate, controller.logout);

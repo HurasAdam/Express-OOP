@@ -11,6 +11,11 @@ export class SessionRepository {
   find() {
     return this.model.find();
   }
+
+  findOneById(sessionId: string) {
+    return this.model.findById(sessionId);
+  }
+
   deleteOne(sessionId: string) {
     return this.model.findByIdAndDelete(sessionId);
   }

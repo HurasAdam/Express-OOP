@@ -1,7 +1,11 @@
 import AppErrorCode from "../../constants/appErrorCode";
 import { FORBIDDEN, UNAUTHORIZED } from "../../constants/http";
 import appAssert from "../../utils/appAssert";
-import { refreshTokenSignOptions, signToken } from "../../utils/jwt";
+import {
+  refreshTokenSignOptions,
+  signToken,
+  verifyToken,
+} from "../../utils/jwt";
 import { SessionRepository } from "../sessions/session.repository";
 import { UserRepository } from "../users/user.repository";
 import { LoginUserDto } from "./dto/login-user.dto";
@@ -63,6 +67,16 @@ export class AuthService {
     };
   }
 
+  async logout(token: string) {
+    const { payload } = verifyToken(token || "");
+    console.log(payload);
+    if (payload) {
+      return await this.sessionRepository.deleteOne(
+        payload.sessionId.toString(),
+      );
+    }
+  }
+
   async me(id: string) {
     const user = await this.userRepository.findOneById(id);
     return {
@@ -71,5 +85,14 @@ export class AuthService {
       surname: user.surname,
       email: user.email,
     };
+  }
+
+  async validateSession(userId: string, sessionId: string) {
+    const user = await this.userRepository.findOneById(userId);
+    appAssert(user, UNAUTHORIZED, "User not found");
+
+    const session = await this.sessionRepository.findOneById(sessionId);
+    appAssert(session, FORBIDDEN, "Session invalidated");
+    return { user: user.omitPassword(), session };
   }
 }

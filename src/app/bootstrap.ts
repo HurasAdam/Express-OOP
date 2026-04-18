@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import express, { Express } from "express";
 import { initDatabase } from "./initDatabase";
 import { initHttpServer } from "./initHttpServer";
@@ -9,6 +10,7 @@ export async function bootstrap(app: Express, port: string) {
     console.log("🟢 Database has been connected");
 
     app.use(express.json());
+    app.use(cookieParser());
 
     initRoutes(app);
 
