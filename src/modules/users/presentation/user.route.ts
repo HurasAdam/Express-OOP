@@ -1,17 +1,16 @@
 import { Router } from "express";
-import { container } from "../../../app/initContainer";
+import { Container } from "../../../app/initContainer";
 
 /**
  * prefix
  * /users
  */
 
-export const userRoutes = Router();
+export const createUserRoutes = (container: Container) => {
+  const router = Router();
+  router.get("/", container.user.controller.find);
+  router.get("/:userId", container.user.controller.findOne);
+  router.post("/create", container.user.controller.create);
 
-/**
- * ROUTES
- */
-
-userRoutes.get("/", container.user.controller.find);
-userRoutes.get("/:userId", container.user.controller.findOne);
-userRoutes.post("/create", container.user.controller.create);
+  return router;
+};

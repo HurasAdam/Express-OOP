@@ -2,6 +2,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Express } from "express";
 import { APP_ORIGIN } from "../config/env";
+import { initContainer } from "./initContainer";
 import { initDatabase } from "./initDatabase";
 import { initHttpServer } from "./initHttpServer";
 import { initMiddleware } from "./initMiddleware";
@@ -19,8 +20,8 @@ export async function bootstrap(app: Express, port: string) {
         credentials: true,
       }),
     );
-
-    initRoutes(app);
+    const container = initContainer();
+    initRoutes(app, container);
 
     initMiddleware(app);
 

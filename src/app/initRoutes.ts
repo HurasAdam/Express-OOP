@@ -1,6 +1,7 @@
 import { Express } from "express";
-import { routes } from "../routes";
+import { createApiRouter } from "../routes/api.gateway";
+import { Container } from "./initContainer";
 
-export function initRoutes(app: Express) {
-  app.use("/api", routes);
+export function initRoutes(app: Express, container: Container) {
+  app.use("/api", createApiRouter(container));
 }
