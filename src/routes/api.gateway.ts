@@ -5,7 +5,8 @@
 
 import { Router } from "express";
 import { Container } from "../app/initContainer";
-import { createAuthRoutes } from "../modules/auth/auth.route";
+
+import { createAuthRoutes } from "../modules/auth/presentation/auth.route";
 import { createSessionRoutes } from "../modules/sessions/presentation/session.route";
 import { createUserRoutes } from "../modules/users/presentation/user.route";
 

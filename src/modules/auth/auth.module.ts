@@ -1,7 +1,7 @@
 import { ISessionRepository } from "../sessions/domain/session.repository.interface";
 import { IUserRepository } from "../users/domain/user.repository.interface";
-import { AuthController } from "./auth.controller";
-import { AuthService } from "./auth.service";
+import { AuthService } from "./application/auth.service";
+import { AuthController } from "./presentation/auth.controller";
 
 export function createAuthModule(deps: {
   userRepository: IUserRepository;

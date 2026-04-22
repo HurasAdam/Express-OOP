@@ -1,12 +1,13 @@
-import { OK } from "../../constants/http";
-import catchErrors from "../../utils/catchErrors";
+import { OK } from "../../../constants/http";
+import catchErrors from "../../../utils/catchErrors";
 import {
   clearAuthCookies,
   getAccessTokenCookieOptions,
   getRefreshTokenCookieOptions,
-} from "../../utils/cookies";
-import { AuthService } from "./auth.service";
-import { LoginUserDto } from "./dto/login-user.dto";
+} from "../../../utils/cookies";
+
+import { AuthService } from "../application/auth.service";
+import { LoginUserDto } from "../dto/login-user.dto";
 
 export class AuthController {
   private service;
