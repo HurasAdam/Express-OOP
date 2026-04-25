@@ -1,5 +1,9 @@
-import { Model } from "mongoose";
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
 
+import { Model } from "mongoose";
 import { User } from "../../domain/user.entity";
 import { IUserRepository } from "../../domain/user.repository.interface";
 import { CreateUserDto } from "../../dto/create-user.dto";

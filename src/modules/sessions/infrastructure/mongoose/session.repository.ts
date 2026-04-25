@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import { ISessionRepository } from "../../domain/session.repository.interface";
 
 export class SessionRepository implements ISessionRepository {

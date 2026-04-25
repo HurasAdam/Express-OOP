@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import mongoose from "mongoose";
 import { MONGO_URI } from "../config/env";
 

@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import { UserService } from "./application/user.service";
 import UserModel from "./infrastructure/mongoose/user.model";
 import { UserRepository } from "./infrastructure/mongoose/user.repository";

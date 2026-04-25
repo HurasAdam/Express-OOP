@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import { CreateUserDto } from "../dto/create-user.dto";
 
 export interface IUserRepository {

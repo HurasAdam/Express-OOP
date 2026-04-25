@@ -5,7 +5,7 @@
 
 import { Router } from "express";
 import { Container } from "../app/initContainer";
-
+import { createArticleRoutes } from "../modules/articles/presentation/article.route";
 import { createAuthRoutes } from "../modules/auth/presentation/auth.route";
 import { createSessionRoutes } from "../modules/sessions/presentation/session.route";
 import { createTagRoutes } from "../modules/tags/presentation/tag.route";
@@ -56,6 +56,16 @@ export function createApiRouter(container: Container) {
     "/users",
     container.authGuard.authenticate,
     createUserRoutes(container),
+  );
+
+  /**
+   * Users
+   */
+
+  router.use(
+    "/articles",
+    container.authGuard.authenticate,
+    createArticleRoutes(container),
   );
 
   /**

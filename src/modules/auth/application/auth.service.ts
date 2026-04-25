@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import AppErrorCode from "../../../constants/appErrorCode";
 import { FORBIDDEN, UNAUTHORIZED } from "../../../constants/http";
 import appAssert from "../../../utils/appAssert";

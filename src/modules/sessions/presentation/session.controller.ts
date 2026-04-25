@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import catchErrors from "../../../utils/catchErrors";
 import { SessionService } from "../application/session.service";
 

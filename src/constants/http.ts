@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 const httpStatus = {
   // CONTINUE: 100,
   // SWITCHING_PROTOCOLS: 101,

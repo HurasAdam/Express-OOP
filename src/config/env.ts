@@ -1,4 +1,9 @@
 /**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
+/**
  * Gets environment variable value.
  *
  * Returns value from process.env by key.

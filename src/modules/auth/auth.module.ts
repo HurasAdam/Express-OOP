@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import { ISessionRepository } from "../sessions/domain/session.repository.interface";
 import { IUserRepository } from "../users/domain/user.repository.interface";
 import { AuthService } from "./application/auth.service";

@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface TagDocument extends Document {

@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import express from "express";
 import { errorHandler } from "../middleware/errorHandler";
 
