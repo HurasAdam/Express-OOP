@@ -9,7 +9,12 @@ import TagModel from "./infrastructure/tag.model";
 import { TagController } from "./presentation/tag.controller";
 
 export function createTagModule(deps: { articleRepository: any }) {
-  const tagRepository = new TagRepository(TagModel);
-  const service = new TagService(tagRepository, deps.articleRepository);
+  const repository = new TagRepository(TagModel);
+  const service = new TagService(repository, deps.articleRepository);
   const controller = new TagController(service);
+
+  return {
+    controller,
+    repository,
+  };
 }
