@@ -3,10 +3,14 @@
  * @license Apache-2.0
  */
 
+import { CreateProductCategoryDto } from "../dto/create-product-category.dto";
+import { UpdateProductCategoryDto } from "../dto/update-product-category.dto";
+import { ProductCategory } from "./product-category.entity";
+
 export interface IProductCategoryRepository {
-  create(data: any): Promise<any>;
-  find(): Promise<any>;
-  findOne(id: string): Promise<any>;
-  updateOne(id: string, data: any): Promise<any>;
-  deleteOne(id: string): any;
+  create(data: CreateProductCategoryDto): Promise<ProductCategory>;
+  find(): Promise<ProductCategory[]>;
+  findOne(id: string): Promise<ProductCategory | null>;
+  updateOne(id: string, data: UpdateProductCategoryDto): Promise<any>;
+  deleteOne(id: string): Promise<boolean>;
 }

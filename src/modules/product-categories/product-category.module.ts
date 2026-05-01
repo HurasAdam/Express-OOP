@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import { ProductCategoryService } from "./application/product-category.service";
 import { ProductCategoryRepository } from "./infrastructure/mongoose/product-category.repository";
 import ProductCategoryModel from "./infrastructure/product-category.model";

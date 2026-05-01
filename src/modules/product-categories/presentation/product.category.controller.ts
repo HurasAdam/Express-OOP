@@ -1,7 +1,13 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import { CREATED } from "../../../constants/http";
 import catchErrors from "../../../utils/catchErrors";
 import { ProductCategoryService } from "../application/product-category.service";
 import { createProductCategoryDto } from "../dto/create-product-category.dto";
+import { updateProductCategoryDto } from "../dto/update-product-category.dto";
 
 export class ProductCategoryController {
   private service;
@@ -20,5 +26,18 @@ export class ProductCategoryController {
     const response = await this.service.find();
 
     return res.status(200).json(response);
+  });
+
+  findOne = catchErrors(async ({ params }, res) => {
+    const { id } = params;
+    const response = await this.service.findOne(id);
+    res.status(200).json(response);
+  });
+
+  updateOne = catchErrors(async ({ params, body }, res) => {
+    const { id } = params;
+    const payload = updateProductCategoryDto.parse(body);
+    const response = await this.service.updateOne(id, payload);
+    res.status(200).json(response);
   });
 }

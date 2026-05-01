@@ -1,3 +1,8 @@
+/**
+ * @copyright 2026 Adam Huras
+ * @license Apache-2.0
+ */
+
 import { Router } from "express";
 import { Container } from "../../../app/initContainer";
 
@@ -20,4 +25,6 @@ export const createProductCategoryRoutes = (container: Container) => {
     container.authGuard.authenticate,
     container.productCategory.controller.find,
   );
+
+  return router;
 };

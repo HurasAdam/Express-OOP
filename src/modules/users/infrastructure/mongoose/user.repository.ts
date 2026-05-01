@@ -15,7 +15,7 @@ export class UserRepository implements IUserRepository {
     this.model = model;
   }
 
-  private toDomain(doc: any): User {
+  private toDomain(doc: UserDocument): User {
     return new User(
       doc._id.toString(),
       doc.name,
@@ -35,10 +35,12 @@ export class UserRepository implements IUserRepository {
 
   async findOneById(id: string) {
     const doc = await this.model.findById(id);
+    if (!doc) return null;
     return this.toDomain(doc);
   }
   async findOneByEmail(email: string) {
     const doc = await this.model.findOne({ email });
+    if (!doc) return null;
     return this.toDomain(doc);
   }
 
