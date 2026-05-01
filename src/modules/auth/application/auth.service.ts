@@ -84,12 +84,7 @@ export class AuthService {
 
   async me(id: string) {
     const user = await this.userRepository.findOneById(id);
-    return {
-      id: user.id,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-    };
+    return user;
   }
 
   async validateSession(userId: string, sessionId: string) {

@@ -21,7 +21,7 @@ export class UserRepository implements IUserRepository {
       doc.name,
       doc.surname,
       doc.email,
-      doc.role?.name,
+      doc.role,
     );
   }
   create(data: CreateUserDto) {
