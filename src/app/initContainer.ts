@@ -6,6 +6,7 @@
 import { AuthMiddleware } from "../middleware/authGuard";
 import { createArticleModule } from "../modules/articles/article.module";
 import { createAuthModule } from "../modules/auth/auth.module";
+import { createProductCategoryModule } from "../modules/product-categories/product-category.module";
 import { createProductModule } from "../modules/products/product.module";
 import { createSessionModule } from "../modules/sessions/session.module";
 import { createTagModule } from "../modules/tags/tag.module";
@@ -14,8 +15,9 @@ import { createUserModule } from "../modules/users/user.module";
 export function initContainer() {
   const userModule = createUserModule();
   const sessionModule = createSessionModule();
-  const articleModule = createArticleModule(); // TODO
+  const articleModule = createArticleModule();
   const productModule = createProductModule();
+  const productCategoryModule = createProductCategoryModule();
   const authModule = createAuthModule({
     userRepository: userModule.repository,
     sessionRepository: sessionModule.repository,
@@ -38,6 +40,7 @@ export function initContainer() {
     tag: tagModule,
     article: articleModule,
     product: productModule,
+    productCategory: productCategoryModule,
   };
 }
 
