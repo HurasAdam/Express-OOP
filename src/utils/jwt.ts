@@ -2,20 +2,17 @@ import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
 import { JWT_REFRESH_SECRET, JWT_SECRET } from "../config/env";
 import Audience from "../constants/audience";
 
-import { SessionDocument } from "../modules/sessions/infrastructure/session.model";
-import { UserDocument } from "../modules/users/infrastructure/mongoose/user.model";
-
 /**
  * ===== PAYLOAD TYPES =====
  */
 
 export type RefreshTokenPayload = {
-  sessionId: SessionDocument["_id"];
+  sessionId: string;
 };
 
 export type AccessTokenPayload = {
-  userId: UserDocument["_id"];
-  sessionId: SessionDocument["_id"];
+  userId: string;
+  sessionId: string;
 };
 
 /**

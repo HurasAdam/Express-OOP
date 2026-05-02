@@ -14,6 +14,11 @@ export class SessionService {
   async find() {
     return await this.repository.find();
   }
+
+  findOne(id: string) {
+    return this.repository.findOneById(id);
+  }
+
   async deleteOne(sessionId: string) {
     await this.repository.deleteOne(sessionId);
   }

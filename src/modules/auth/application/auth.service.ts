@@ -7,6 +7,7 @@ import AppErrorCode from "../../../constants/appErrorCode";
 import { FORBIDDEN, UNAUTHORIZED } from "../../../constants/http";
 import appAssert from "../../../utils/appAssert";
 import {
+  RefreshTokenPayload,
   refreshTokenSignOptions,
   signToken,
   verifyToken,
@@ -85,6 +86,46 @@ export class AuthService {
   async me(id: string) {
     const user = await this.userRepository.findOneById(id);
     return user;
+  }
+
+  async refresh(refreshToken: string) {
+    const { payload } = verifyToken<RefreshTokenPayload>(refreshToken, {
+      secret: refreshTokenSignOptions.secret,
+    });
+    appAssert(payload, UNAUTHORIZED, "Invalid refresh token");
+
+    const session = await this.sessionRepository.findOneById(
+      payload.sessionId.toString(),
+    );
+
+    appAssert(session && session.isActive(), UNAUTHORIZED, "Session expired");
+
+    const shouldRotate = session.willExpireSoon();
+
+    if (shouldRotate) {
+      session.extendExpirationTime();
+    }
+
+    await this.sessionRepository.updateExpiration(session);
+
+    const newRefreshToken = shouldRotate
+      ? signToken(
+          {
+            sessionId: session.id,
+          },
+          refreshTokenSignOptions,
+        )
+      : undefined;
+
+    const accessToken = signToken({
+      userId: session.userId,
+      sessionId: session.id,
+    });
+
+    return {
+      accessToken,
+      newRefreshToken,
+    };
   }
 
   async validateSession(userId: string, sessionId: string) {

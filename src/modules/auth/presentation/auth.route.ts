@@ -24,6 +24,7 @@ export const createAuthRoutes = (container: Container) => {
     container.authGuard.authenticate,
     container.auth.controller.logout,
   );
+  router.get("/refresh", container.auth.controller.refresh);
 
   return router;
 };

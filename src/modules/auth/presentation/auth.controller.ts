@@ -51,4 +51,9 @@ export class AuthController {
       .status(OK)
       .json({ message: "Logout successful" });
   });
+
+  refresh = catchErrors(async ({ cookies }, res) => {
+    const refreshToken = cookies.refreshToken;
+    this.service.refresh(refreshToken);
+  });
 }
