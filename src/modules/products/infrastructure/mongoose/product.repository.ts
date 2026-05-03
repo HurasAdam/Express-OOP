@@ -4,6 +4,7 @@
  */
 
 import { Model } from "mongoose";
+import { Product } from "../../domain/product.entity";
 import { IProductRepository } from "../../domain/product.repository.interface";
 import { CreateProductDto } from "../../dto/create-product.dto";
 import { ProductDocument } from "../product.model";
@@ -14,12 +15,21 @@ export class ProductRepository implements IProductRepository {
     this.model = model;
   }
 
-  create(data: CreateProductDto) {
-    return this.model.create(data);
+  toDomain(doc: ProductDocument): Product {
+    return new Product(doc._id.toString(), doc.name, doc.createdBy.toString());
   }
 
-  find() {
-    return this.model.find({});
+  create(userId: string, data: CreateProductDto) {
+    return this.model.create({
+      ...data,
+      createdBy: userId,
+    });
+  }
+
+  async find(): Promise<Product[]> {
+    const docs = await this.model.find().populate("createdBy");
+
+    return docs.map((doc) => this.toDomain(doc));
   }
 
   findOne(id: string) {

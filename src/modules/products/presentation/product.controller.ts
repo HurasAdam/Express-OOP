@@ -14,9 +14,9 @@ export class ProductController {
     this.productService = productService;
   }
 
-  create = catchErrors(async ({ body }, res) => {
+  create = catchErrors(async ({ userId, body }, res) => {
     const payload = createProductDto.parse(body);
-    await this.productService.create(payload);
+    await this.productService.create(userId, payload);
     return res.sendStatus(NO_CONTENT);
   });
 

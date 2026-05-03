@@ -5,7 +5,7 @@ export const oneYearFromNow = () => {
 };
 
 export const thirtyDaysFromNow = () => {
-  return add(new Date(), { days: 3 });
+  return add(new Date(), { days: 30 });
 };
 
 export const fifteenMinutesFromNow = () => {

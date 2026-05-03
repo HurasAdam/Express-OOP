@@ -12,8 +12,8 @@ export class ProductService {
     this.productRepository = productRepository;
   }
 
-  create(data: CreateProductDto) {
-    return this.productRepository.create(data);
+  create(userId: string, data: CreateProductDto) {
+    return this.productRepository.create(userId, data);
   }
 
   find() {

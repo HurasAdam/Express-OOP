@@ -6,7 +6,7 @@
 import { CreateProductDto } from "../dto/create-product.dto";
 
 export interface IProductRepository {
-  create(data: CreateProductDto): Promise<any>;
+  create(userId: string, data: CreateProductDto): Promise<any>;
   find(): Promise<any>;
   findOne(id: string): Promise<any>;
   deleteOne(): any;
