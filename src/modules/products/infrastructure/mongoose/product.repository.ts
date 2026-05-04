@@ -16,7 +16,12 @@ export class ProductRepository implements IProductRepository {
   }
 
   toDomain(doc: ProductDocument): Product {
-    return new Product(doc._id.toString(), doc.name, doc.createdBy.toString());
+    return new Product(
+      doc._id.toString(),
+      doc.name,
+      doc.createdBy.toString(),
+      doc.labelColor,
+    );
   }
 
   create(userId: string, data: CreateProductDto) {
@@ -27,7 +32,7 @@ export class ProductRepository implements IProductRepository {
   }
 
   async find(): Promise<Product[]> {
-    const docs = await this.model.find().populate("createdBy");
+    const docs = await this.model.find();
 
     return docs.map((doc) => this.toDomain(doc));
   }

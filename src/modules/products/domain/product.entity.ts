@@ -3,5 +3,6 @@ export class Product {
     public readonly id: string,
     public name: string,
     public createdBy: string,
+    public labelColor: string,
   ) {}
 }
