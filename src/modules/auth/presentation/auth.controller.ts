@@ -52,8 +52,23 @@ export class AuthController {
       .json({ message: "Logout successful" });
   });
 
-  refresh = catchErrors(async ({ cookies }, res) => {
+  refresh = catchErrors(async (req, res) => {
+    const { cookies } = req;
     const refreshToken = cookies.refreshToken;
-    this.service.refresh(refreshToken);
+
+    const { accessToken, newRefreshToken } =
+      await this.service.refresh(refreshToken);
+
+    if (newRefreshToken) {
+      res.cookie(
+        "refreshToken",
+        newRefreshToken,
+        getRefreshTokenCookieOptions(),
+      );
+    }
+
+    res.cookie("accessToken", accessToken, getAccessTokenCookieOptions());
+
+    return res.status(200).json({ message: "Access token refreshed" });
   });
 }

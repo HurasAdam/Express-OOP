@@ -89,9 +89,12 @@ export class AuthService {
   }
 
   async refresh(refreshToken: string) {
+    appAssert(refreshToken, UNAUTHORIZED, "Missing refresh token");
+
     const { payload } = verifyToken<RefreshTokenPayload>(refreshToken, {
       secret: refreshTokenSignOptions.secret,
     });
+
     appAssert(payload, UNAUTHORIZED, "Invalid refresh token");
 
     const session = await this.sessionRepository.findOneById(

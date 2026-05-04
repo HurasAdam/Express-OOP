@@ -26,7 +26,12 @@ export class AuthMiddleware {
   authenticate = catchErrors(
     async (req: Request, res: Response, next: NextFunction) => {
       const token = req.cookies.accessToken;
-      appAssert(token, UNAUTHORIZED, "Invalid access token");
+      appAssert(
+        token,
+        UNAUTHORIZED,
+        "Not authorized",
+        AppErrorCode.InvalidAccessToken,
+      );
       const { payload, error } = verifyToken(token);
 
       appAssert(
