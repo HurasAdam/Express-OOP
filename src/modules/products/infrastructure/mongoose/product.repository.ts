@@ -41,5 +41,11 @@ export class ProductRepository implements IProductRepository {
     return this.model.findById(id);
   }
 
+  async findByName(name: string): Promise<Product | null> {
+    const doc = await this.model.findOne({ name });
+
+    return doc ? this.toDomain(doc) : null;
+  }
+
   deleteOne() {}
 }

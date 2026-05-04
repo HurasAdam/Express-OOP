@@ -3,6 +3,8 @@
  * @license Apache-2.0
  */
 
+import { CONFLICT } from "../../../constants/http";
+import appAssert from "../../../utils/appAssert";
 import { IProductRepository } from "../domain/product.repository.interface";
 import { CreateProductDto } from "../dto/create-product.dto";
 
@@ -12,7 +14,10 @@ export class ProductService {
     this.productRepository = productRepository;
   }
 
-  create(userId: string, data: CreateProductDto) {
+  async create(userId: string, data: CreateProductDto) {
+    const existing = await this.productRepository.findByName(data.name);
+    appAssert(!existing, CONFLICT, "Product with that name already exists");
+
     return this.productRepository.create(userId, data);
   }
 
