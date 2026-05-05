@@ -7,6 +7,7 @@ import { Model } from "mongoose";
 import { Product } from "../../domain/product.entity";
 import { IProductRepository } from "../../domain/product.repository.interface";
 import { CreateProductDto } from "../../dto/create-product.dto";
+import { FindProductsQueryDto } from "../../dto/find-products-query.dto";
 import { ProductDocument } from "../product.model";
 
 export class ProductRepository implements IProductRepository {
@@ -31,14 +32,21 @@ export class ProductRepository implements IProductRepository {
     });
   }
 
-  async find(): Promise<Product[]> {
-    const docs = await this.model.find();
+  async find(filters: FindProductsQueryDto): Promise<Product[]> {
+    const query: any = {};
+
+    if (filters?.name) {
+      query.name = { $regex: filters.name, $options: "i" };
+    }
+    const docs = await this.model.find(query);
 
     return docs.map((doc) => this.toDomain(doc));
   }
 
-  findOne(id: string) {
-    return this.model.findById(id);
+  async findOne(id: string): Promise<Product | null> {
+    const doc = await this.model.findById(id);
+    if (!doc) return null;
+    return this.toDomain(doc);
   }
 
   async findByName(name: string): Promise<Product | null> {

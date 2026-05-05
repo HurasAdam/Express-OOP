@@ -7,6 +7,7 @@ import { CONFLICT } from "../../../constants/http";
 import appAssert from "../../../utils/appAssert";
 import { IProductRepository } from "../domain/product.repository.interface";
 import { CreateProductDto } from "../dto/create-product.dto";
+import { FindProductsQueryDto } from "../dto/find-products-query.dto";
 
 export class ProductService {
   private productRepository;
@@ -21,8 +22,8 @@ export class ProductService {
     return this.productRepository.create(userId, data);
   }
 
-  find() {
-    return this.productRepository.find();
+  find(query: FindProductsQueryDto) {
+    return this.productRepository.find(query);
   }
 
   findOne(id: string) {

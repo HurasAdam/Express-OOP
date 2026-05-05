@@ -7,6 +7,7 @@ import { NO_CONTENT, OK } from "../../../constants/http";
 import catchErrors from "../../../utils/catchErrors";
 import { ProductService } from "../application/product.service";
 import { createProductDto } from "../dto/create-product.dto";
+import { findProductsQueryDto } from "../dto/find-products-query.dto";
 
 export class ProductController {
   private productService;
@@ -21,7 +22,9 @@ export class ProductController {
   });
 
   find = catchErrors(async (req, res) => {
-    const products = await this.productService.find();
+    const query = findProductsQueryDto.parse(req.query);
+
+    const products = await this.productService.find(query);
     return res.status(OK).json(products);
   });
   findOne = catchErrors(async ({ params }, res) => {
