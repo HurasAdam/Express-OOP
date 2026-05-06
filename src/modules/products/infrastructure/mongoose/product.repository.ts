@@ -33,7 +33,7 @@ export class ProductRepository implements IProductRepository {
   }
 
   async find(filters: FindProductsQueryDto): Promise<Product[]> {
-    const query: any = {};
+    const query: Record<string, unknown> = {};
 
     if (filters?.name) {
       query.name = { $regex: filters.name, $options: "i" };

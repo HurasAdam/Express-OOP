@@ -11,6 +11,7 @@ const enum AppErrorCode {
   InvalidCredentials = "InvalidCredentials",
   AccountDisabled = "AccountDisabled",
   NotFound = "NotFound",
+  DuplicateRoleName = "DuplicateRoleName",
 }
 
 export default AppErrorCode;

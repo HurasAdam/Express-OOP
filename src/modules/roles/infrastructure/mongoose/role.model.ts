@@ -1,9 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { PermissionType } from "../../constants/permissions";
-import { RoleType } from "../../constants/roles";
 
 export interface RoleDocument extends Document {
-  name: RoleType;
+  name: string;
   permissions: Array<PermissionType>;
   iconKey: string;
   labelColor: string;
