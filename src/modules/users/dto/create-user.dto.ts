@@ -11,6 +11,7 @@ export const createUserDto = z.object({
   name: z.string().min(3).max(255),
   surname: z.string().min(3).max(255),
   password: z.string(),
+  role: z.string(),
 });
 
 export type CreateUserDto = z.infer<typeof createUserDto>;

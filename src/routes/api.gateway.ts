@@ -5,6 +5,7 @@
 
 import { Router } from "express";
 import { Container } from "../app/initContainer";
+import { createAdminRoutes } from "../modules/admin/presentation/admin.route";
 import { createArticleRoutes } from "../modules/articles/presentation/article.route";
 import { createAuthRoutes } from "../modules/auth/presentation/auth.route";
 import { createProductCategoryRoutes } from "../modules/product-categories/presentation/product-category.route";
@@ -50,6 +51,15 @@ export function createApiRouter(container: Container) {
     "/sessions",
     container.authGuard.authenticate,
     createSessionRoutes(container),
+  );
+
+  /**
+   * Admin
+   */
+  router.use(
+    "/admin",
+    container.authGuard.authenticate,
+    createAdminRoutes(container),
   );
 
   /**

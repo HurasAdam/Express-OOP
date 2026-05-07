@@ -15,6 +15,7 @@ export class UserService {
       surname: data.surname,
       email: data.email,
       password: data.password,
+      role: data.role,
     });
   }
 

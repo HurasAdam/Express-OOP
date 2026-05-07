@@ -4,6 +4,7 @@
  */
 
 import { AuthMiddleware } from "../middleware/authGuard";
+import { createAdminModule } from "../modules/admin/admin.module";
 import { createArticleModule } from "../modules/articles/article.module";
 import { createAuthModule } from "../modules/auth/auth.module";
 import { createProductCategoryModule } from "../modules/product-categories/product-category.module";
@@ -29,6 +30,11 @@ export function initContainer() {
     articleRepository: articleModule.repository,
   });
 
+  const adminModule = createAdminModule({
+    userRepository: userModule.repository,
+    roleRepository: roleModule.repository,
+  });
+
   const authMiddleware = new AuthMiddleware(
     userModule.repository,
     sessionModule.repository,
@@ -37,6 +43,7 @@ export function initContainer() {
   return {
     auth: authModule,
     authGuard: authMiddleware,
+    admin: adminModule,
     user: userModule,
     session: sessionModule,
     role: roleModule,
