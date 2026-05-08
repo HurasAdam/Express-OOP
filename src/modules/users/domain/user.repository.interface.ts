@@ -4,12 +4,20 @@
  */
 
 import { CreateUserDto } from "../dto/create-user.dto";
+import { User } from "./user.entity";
 
 export interface IUserRepository {
-  create(data: CreateUserDto): Promise<any>;
-  find(): Promise<any>;
-  findOneById(id: string): Promise<any>;
-  findOneByEmail(email: string): Promise<any>;
-  deleteOne(): any;
+  create(data: CreateUserDto): Promise<User>;
+
+  find(): Promise<User[]>;
+
+  findByIds(ids: string[]): Promise<User[]>;
+
+  findOneById(id: string): Promise<User | null>;
+
+  findOneByEmail(email: string): Promise<User | null>;
+
+  deleteOne(id: string): Promise<User | null>;
+
   findByEmailWithRole(email: string): Promise<any>;
 }

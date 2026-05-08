@@ -24,12 +24,21 @@ export class UserRepository implements IUserRepository {
       doc.role,
     );
   }
-  create(data: CreateUserDto) {
-    return this.model.create(data);
+  async create(data: CreateUserDto) {
+    const doc = await this.model.create(data);
+    return this.toDomain(doc);
   }
 
   async find() {
     const docs = await this.model.find({});
+    return docs.map((doc) => this.toDomain(doc));
+  }
+
+  async findByIds(ids: string[]): Promise<User[]> {
+    const docs = await this.model.find({
+      _id: { $in: ids },
+    });
+
     return docs.map((doc) => this.toDomain(doc));
   }
 
@@ -44,8 +53,10 @@ export class UserRepository implements IUserRepository {
     return this.toDomain(doc);
   }
 
-  deleteOne() {
-    console.log("TODO");
+  async deleteOne(id: string) {
+    const doc = await this.model.findByIdAndDelete(id);
+    if (!doc) return null;
+    return this.toDomain(doc);
   }
 
   findByEmailWithRole(email: string) {
