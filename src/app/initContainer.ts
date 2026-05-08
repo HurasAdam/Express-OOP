@@ -28,6 +28,7 @@ export function initContainer() {
 
   const tagModule = createTagModule({
     articleRepository: articleModule.repository,
+    userRepository: userModule.repository,
   });
 
   const adminModule = createAdminModule({

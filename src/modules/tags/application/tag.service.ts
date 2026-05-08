@@ -6,17 +6,26 @@
 import AppErrorCode from "../../../constants/appErrorCode";
 import { CONFLICT, NOT_FOUND } from "../../../constants/http";
 import appAssert from "../../../utils/appAssert";
+import { IArticleRepository } from "../../articles/domain/article.repository.interface";
+import { IUserRepository } from "../../users/domain/user.repository.interface";
 import { ITagRepository } from "../domain/tag.repository.interface";
 import { CreateTagDto } from "../dto/create-tag.dto";
 import { FindTagsQueryDto } from "../dto/find-tags-query.dto";
+import { TagResponseDto } from "../dto/tag-response.dto";
 import { UpdateTagDto } from "../dto/update-tag.dto";
 
 export class TagService {
-  private tagRepository;
-  private articleRepository;
-  constructor(tagRepository: ITagRepository, articleRepository: unknown) {
+  private tagRepository: ITagRepository;
+  private articleRepository: IArticleRepository;
+  private userRepository: IUserRepository;
+  constructor(
+    tagRepository: ITagRepository,
+    articleRepository: IArticleRepository,
+    userRepository: IUserRepository,
+  ) {
     this.tagRepository = tagRepository;
     this.articleRepository = articleRepository;
+    this.userRepository = userRepository;
   }
 
   async create(userId: string, data: CreateTagDto) {
@@ -25,8 +34,33 @@ export class TagService {
     return this.tagRepository.create(userId, data);
   }
 
-  find(query: FindTagsQueryDto) {
-    return this.tagRepository.find(query);
+  async find(query: FindTagsQueryDto): Promise<TagResponseDto[]> {
+    const tags = await this.tagRepository.find(query);
+
+    const userIds = [...new Set(tags.map((t) => t.createdBy))];
+
+    const users = await this.userRepository.findByIds(userIds);
+
+    const userMap = new Map(users.map((u) => [u.id, u]));
+
+    return tags.map((tag) => {
+      const user = userMap.get(tag.createdBy.toString());
+
+      return {
+        id: tag.id,
+        name: tag.name,
+        createdBy: user
+          ? {
+              id: user.id,
+              name: user.name,
+              surname: user.surname,
+              email: user.email,
+            }
+          : null,
+        createdAt: tag.createdAt,
+        updatedAt: tag.updatedAt,
+      };
+    });
   }
 
   findOne(id: string) {
