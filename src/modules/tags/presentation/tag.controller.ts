@@ -6,6 +6,8 @@
 import { CREATED, NO_CONTENT } from "../../../constants/http";
 import catchErrors from "../../../utils/catchErrors";
 import { TagService } from "../application/tag.service";
+import { createTagDto } from "../dto/create-tag.dto";
+import { findTagsQueryDto } from "../dto/find-tags-query.dto";
 
 export class TagController {
   private service;
@@ -14,14 +16,20 @@ export class TagController {
     this.service = tagService;
   }
 
-  create = catchErrors(async ({ body }, res) => {
-    const payload = body;
+  create = catchErrors(async ({ body, userId }, res) => {
+    const payload = createTagDto.parse(body);
 
-    await this.service.create(payload);
+    await this.service.create(userId, payload);
     return res.sendStatus(CREATED);
   });
 
-  find = catchErrors(async (req, res) => {});
+  find = catchErrors(async (req, res) => {
+    const query = findTagsQueryDto.parse(req.query);
+
+    const serviceResponse = await this.service.find(query);
+
+    return res.status(200).json(serviceResponse);
+  });
 
   findOne = catchErrors(async (req, res) => {});
 

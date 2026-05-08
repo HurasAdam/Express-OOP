@@ -7,6 +7,7 @@ import { Model } from "mongoose";
 import { Tag } from "../../domain/tag.entity";
 import { ITagRepository } from "../../domain/tag.repository.interface";
 import { CreateTagDto } from "../../dto/create-tag.dto";
+import { FindTagsQueryDto } from "../../dto/find-tags-query.dto";
 import { UpdateTagDto } from "../../dto/update-tag.dto";
 import { TagDocument } from "../tag.model";
 
@@ -26,18 +27,35 @@ export class TagRepository implements ITagRepository {
     );
   }
 
-  async create(data: CreateTagDto) {
-    const tag = await this.model.create(data);
+  async create(userId: string, data: CreateTagDto) {
+    const tag = await this.model.create({
+      ...data,
+      createdBy: userId,
+    });
+
     return this.toDomain(tag);
   }
 
-  async find() {
-    const docs = await this.model.find({});
+  async find(filters: FindTagsQueryDto) {
+    const query: Record<string, unknown> = {};
+
+    if (filters?.name) {
+      query.name = { $regex: filters.name, $options: "i" };
+    }
+    const docs = await this.model.find(query);
     return docs.map((doc) => this.toDomain(doc));
   }
 
   async findOne(id: string) {
     const doc = await this.model.findById(id);
+
+    if (!doc) return null;
+
+    return this.toDomain(doc);
+  }
+
+  async findByName(name: string) {
+    const doc = await this.model.findOne({ name });
 
     if (!doc) return null;
 

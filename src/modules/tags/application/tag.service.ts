@@ -4,10 +4,11 @@
  */
 
 import AppErrorCode from "../../../constants/appErrorCode";
-import { NOT_FOUND } from "../../../constants/http";
+import { CONFLICT, NOT_FOUND } from "../../../constants/http";
 import appAssert from "../../../utils/appAssert";
 import { ITagRepository } from "../domain/tag.repository.interface";
 import { CreateTagDto } from "../dto/create-tag.dto";
+import { FindTagsQueryDto } from "../dto/find-tags-query.dto";
 import { UpdateTagDto } from "../dto/update-tag.dto";
 
 export class TagService {
@@ -18,12 +19,14 @@ export class TagService {
     this.articleRepository = articleRepository;
   }
 
-  create(data: CreateTagDto) {
-    return this.tagRepository.create(data);
+  async create(userId: string, data: CreateTagDto) {
+    const alreadyExist = await this.tagRepository.findByName(data.name);
+    appAssert(!alreadyExist, CONFLICT, "Tag with that name already exists");
+    return this.tagRepository.create(userId, data);
   }
 
-  find() {
-    this.tagRepository.find();
+  find(query: FindTagsQueryDto) {
+    return this.tagRepository.find(query);
   }
 
   findOne(id: string) {

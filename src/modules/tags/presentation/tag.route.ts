@@ -14,7 +14,8 @@ import { Container } from "../../../app/initContainer";
 export const createTagRoutes = (container: Container) => {
   const router = Router();
 
-  router.get("/");
+  router.post("/", container.tag.controller.create);
+  router.get("/", container.tag.controller.find);
 
   return router;
 };
