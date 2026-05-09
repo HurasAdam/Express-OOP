@@ -31,7 +31,15 @@ export class TagController {
     return res.status(200).json(serviceResponse);
   });
 
-  findOne = catchErrors(async (req, res) => {});
+  findOne = catchErrors(async ({ params }, res) => {
+    const { id } = params;
+    const serviceResponse = await this.service.findOne(id);
+
+    return res.status(200).json({
+      id: serviceResponse.id,
+      name: serviceResponse.name,
+    });
+  });
 
   updateOne = catchErrors(async (req, res) => {});
 

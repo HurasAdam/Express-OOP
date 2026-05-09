@@ -63,8 +63,10 @@ export class TagService {
     });
   }
 
-  findOne(id: string) {
-    this.tagRepository.findOne(id);
+  async findOne(id: string) {
+    const tag = await this.tagRepository.findOne(id);
+    appAssert(tag, NOT_FOUND, "Tag not found");
+    return tag;
   }
 
   updateOne(id: string, data: UpdateTagDto) {
