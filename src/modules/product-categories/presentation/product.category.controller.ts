@@ -15,11 +15,11 @@ export class ProductCategoryController {
     this.service = service;
   }
 
-  create = catchErrors(async ({ body }, res) => {
+  create = catchErrors(async ({ userId, body }, res) => {
     const payload = createProductCategoryDto.parse(body);
-    await this.service.create(payload);
+    await this.service.create(userId, payload);
 
-    return res.status(CREATED);
+    return res.sendStatus(CREATED);
   });
 
   find = catchErrors(async (req, res) => {
