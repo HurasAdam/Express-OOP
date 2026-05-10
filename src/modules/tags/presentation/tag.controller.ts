@@ -8,6 +8,7 @@ import catchErrors from "../../../utils/catchErrors";
 import { TagService } from "../application/tag.service";
 import { createTagDto } from "../dto/create-tag.dto";
 import { findTagsQueryDto } from "../dto/find-tags-query.dto";
+import { updateTagDto } from "../dto/update-tag.dto";
 
 export class TagController {
   private service;
@@ -41,7 +42,12 @@ export class TagController {
     });
   });
 
-  updateOne = catchErrors(async (req, res) => {});
+  updateOne = catchErrors(async ({ userId, body, params }, res) => {
+    const { id } = params;
+    const payload = updateTagDto.parse(body);
+    await this.service.updateOne(id, userId, payload);
+    return res.sendStatus(NO_CONTENT);
+  });
 
   deleteOne = catchErrors(async ({ params }, res) => {
     const { id } = params;

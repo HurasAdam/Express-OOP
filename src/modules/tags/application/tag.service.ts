@@ -69,7 +69,19 @@ export class TagService {
     return tag;
   }
 
-  updateOne(id: string, data: UpdateTagDto) {
+  async updateOne(id: string, userId: string, data: UpdateTagDto) {
+    const tag = await this.tagRepository.findOne(id);
+    appAssert(tag, NOT_FOUND, "Tag not found");
+
+    if (data.name) {
+      const existingTag = await this.tagRepository.findByName(data.name);
+      appAssert(
+        !existingTag || existingTag.id === tag.id,
+        CONFLICT,
+        "Tag name already exists",
+      );
+    }
+
     this.tagRepository.updateOne(id, data);
   }
 
