@@ -20,7 +20,9 @@ export function initContainer() {
   const articleModule = createArticleModule();
   const productModule = createProductModule();
   const roleModule = createRoleModule();
-  const productCategoryModule = createProductCategoryModule();
+  const productCategoryModule = createProductCategoryModule({
+    productRepository: productModule.repository,
+  });
   const authModule = createAuthModule({
     userRepository: userModule.repository,
     sessionRepository: sessionModule.repository,
