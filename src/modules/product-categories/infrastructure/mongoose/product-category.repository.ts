@@ -20,8 +20,15 @@ export class ProductCategoryRepository implements IProductCategoryRepository {
     return new ProductCategory(doc._id.toString(), doc.name);
   }
 
-  async create(data: CreateProductCategoryDto): Promise<ProductCategory> {
-    const doc = await this.model.create(data);
+  async create(
+    userId: string,
+    data: CreateProductCategoryDto,
+  ): Promise<ProductCategory> {
+    const doc = await this.model.create({
+      createdBy: userId,
+      updatedBy: userId,
+      ...data,
+    });
     return this.toDomain(doc);
   }
 
@@ -33,6 +40,12 @@ export class ProductCategoryRepository implements IProductCategoryRepository {
 
   async findOne(id: string): Promise<ProductCategory | null> {
     const doc = await this.model.findById(id);
+    if (!doc) return null;
+    return this.toDomain(doc);
+  }
+
+  async findByName(name: string): Promise<ProductCategory | null> {
+    const doc = await this.model.findOne({ name });
     if (!doc) return null;
     return this.toDomain(doc);
   }

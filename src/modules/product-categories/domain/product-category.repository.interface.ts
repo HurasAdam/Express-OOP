@@ -8,9 +8,13 @@ import { UpdateProductCategoryDto } from "../dto/update-product-category.dto";
 import { ProductCategory } from "./product-category.entity";
 
 export interface IProductCategoryRepository {
-  create(data: CreateProductCategoryDto): Promise<ProductCategory>;
+  create(
+    userId: string,
+    data: CreateProductCategoryDto,
+  ): Promise<ProductCategory>;
   find(): Promise<ProductCategory[]>;
   findOne(id: string): Promise<ProductCategory | null>;
+  findByName(name: string): Promise<ProductCategory | null>;
   updateOne(id: string, data: UpdateProductCategoryDto): Promise<any>;
   deleteOne(id: string): Promise<boolean>;
 }
