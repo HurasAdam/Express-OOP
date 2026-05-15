@@ -35,8 +35,11 @@ export class RoleRepository implements IRoleRepository {
     return docs.map((doc) => this.toDomain(doc));
   }
 
-  findOneById(id: string): Promise<any> {
-    return this.model.findById(id);
+  async findOneById(id: string): Promise<Role | null> {
+    const doc = await this.model.findById(id);
+
+    if (!doc) return null;
+    return this.toDomain(doc);
   }
 
   async findOneByName(name: string): Promise<Role | null> {
