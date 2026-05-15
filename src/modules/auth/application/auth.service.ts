@@ -4,7 +4,7 @@
  */
 
 import AppErrorCode from "../../../constants/appErrorCode";
-import { FORBIDDEN, UNAUTHORIZED } from "../../../constants/http";
+import { FORBIDDEN, NOT_FOUND, UNAUTHORIZED } from "../../../constants/http";
 import appAssert from "../../../utils/appAssert";
 import {
   RefreshTokenPayload,
@@ -12,6 +12,7 @@ import {
   signToken,
   verifyToken,
 } from "../../../utils/jwt";
+import { IRoleRepository } from "../../roles/domain/role.repository.interface";
 import { ISessionRepository } from "../../sessions/domain/session.repository.interface";
 import { IUserRepository } from "../../users/domain/user.repository.interface";
 import { LoginUserDto } from "../dto/login-user.dto";
@@ -19,12 +20,15 @@ import { LoginUserDto } from "../dto/login-user.dto";
 export class AuthService {
   private userRepository: IUserRepository;
   private sessionRepository: ISessionRepository;
+  private roleRepository: IRoleRepository;
   constructor(
     userRepository: IUserRepository,
     sessionRepository: ISessionRepository,
+    roleRepository: IRoleRepository,
   ) {
     this.userRepository = userRepository;
     this.sessionRepository = sessionRepository;
+    this.roleRepository = roleRepository;
   }
 
   async login(payload: LoginUserDto) {
@@ -85,7 +89,17 @@ export class AuthService {
 
   async me(id: string) {
     const user = await this.userRepository.findOneById(id);
-    return user;
+
+    appAssert(user, NOT_FOUND, "User not found");
+
+    const role = await this.roleRepository.findOneById(user.role);
+
+    appAssert(role, NOT_FOUND, "Role not found");
+
+    return {
+      ...user,
+      role,
+    };
   }
 
   async refresh(refreshToken: string) {
