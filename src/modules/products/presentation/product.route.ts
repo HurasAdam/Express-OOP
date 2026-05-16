@@ -16,7 +16,7 @@ export const createProductRoutes = (container: Container) => {
 
   router.post("/", container.product.controller.create);
   router.get("/", container.product.controller.find);
-  router.get("/:id", container.product.controller.findOne);
+  router.get("/:id", container.product.controller.findOneWithDetails);
 
   return router;
 };

@@ -15,6 +15,7 @@ export interface IProductCategoryRepository {
   find(): Promise<ProductCategory[]>;
   findOne(id: string): Promise<ProductCategory | null>;
   findByName(name: string): Promise<ProductCategory | null>;
+  findByProductId(id: string): Promise<unknown | null>;
   updateOne(id: string, data: UpdateProductCategoryDto): Promise<any>;
   deleteOne(id: string): Promise<boolean>;
 }

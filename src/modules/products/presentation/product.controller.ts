@@ -27,9 +27,9 @@ export class ProductController {
     const products = await this.productService.find(query);
     return res.status(OK).json(products);
   });
-  findOne = catchErrors(async ({ params }, res) => {
+  findOneWithDetails = catchErrors(async ({ params }, res) => {
     const { id } = params;
-    const product = await this.productService.findOne(id);
+    const product = await this.productService.findOneWithDetails(id);
     return res.status(OK).json(product);
   });
 }

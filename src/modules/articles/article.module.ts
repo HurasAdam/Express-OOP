@@ -4,17 +4,18 @@
  */
 
 import { ArticleService } from "./application/article.service";
-import ArticleModel from "./infrastructure/article.model";
-import { articleRepository } from "./infrastructure/mongoose/article.repository";
+import { IArticleRepository } from "./domain/article.repository.interface";
 import { ArticleController } from "./presentation/article.controller";
 
-export function createArticleModule() {
-  const repository = new articleRepository(ArticleModel);
-  const articleService = new ArticleService(repository);
+interface deps {
+  articleRepository: IArticleRepository;
+}
+
+export function createArticleModule(deps: deps) {
+  const articleService = new ArticleService(deps.articleRepository);
   const controller = new ArticleController(articleService);
 
   return {
     controller,
-    repository,
   };
 }

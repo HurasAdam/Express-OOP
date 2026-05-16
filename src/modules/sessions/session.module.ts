@@ -4,17 +4,18 @@
  */
 
 import { SessionService } from "./application/session.service";
-import { SessionRepository } from "./infrastructure/mongoose/session.repository";
-import SessionModel from "./infrastructure/session.model";
+import { ISessionRepository } from "./domain/session.repository.interface";
 import { SessionController } from "./presentation/session.controller";
 
-export function createSessionModule() {
-  const repository = new SessionRepository(SessionModel);
-  const service = new SessionService(repository);
+interface deps {
+  sessionRepository: ISessionRepository;
+}
+
+export function createSessionModule(deps: deps) {
+  const service = new SessionService(deps.sessionRepository);
   const controller = new SessionController(service);
 
   return {
     controller,
-    repository,
   };
 }

@@ -4,17 +4,18 @@
  */
 
 import { UserService } from "./application/user.service";
-import UserModel from "./infrastructure/mongoose/user.model";
-import { UserRepository } from "./infrastructure/mongoose/user.repository";
+import { IUserRepository } from "./domain/user.repository.interface";
 import { UserController } from "./presentation/user.controller";
 
-export function createUserModule() {
-  const repository = new UserRepository(UserModel);
-  const service = new UserService(repository);
+interface deps {
+  userRepository: IUserRepository;
+}
+
+export function createUserModule(deps: deps) {
+  const service = new UserService(deps.userRepository);
   const controller = new UserController(service);
 
   return {
     controller,
-    repository,
   };
 }

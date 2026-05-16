@@ -55,5 +55,7 @@ export class ProductRepository implements IProductRepository {
     return doc ? this.toDomain(doc) : null;
   }
 
+  async findByProductId() {}
+
   deleteOne() {}
 }

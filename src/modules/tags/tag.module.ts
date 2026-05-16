@@ -6,17 +6,18 @@
 import { IArticleRepository } from "../articles/domain/article.repository.interface";
 import { IUserRepository } from "../users/domain/user.repository.interface";
 import { TagService } from "./application/tag.service";
-import { TagRepository } from "./infrastructure/mongoose/tag.repository";
-import TagModel from "./infrastructure/tag.model";
+import { ITagRepository } from "./domain/tag.repository.interface";
 import { TagController } from "./presentation/tag.controller";
 
-export function createTagModule(deps: {
+interface deps {
+  tagRepository: ITagRepository;
   articleRepository: IArticleRepository;
   userRepository: IUserRepository;
-}) {
-  const repository = new TagRepository(TagModel);
+}
+
+export function createTagModule(deps: deps) {
   const service = new TagService(
-    repository,
+    deps.tagRepository,
     deps.articleRepository,
     deps.userRepository,
   );
@@ -24,6 +25,5 @@ export function createTagModule(deps: {
 
   return {
     controller,
-    repository,
   };
 }

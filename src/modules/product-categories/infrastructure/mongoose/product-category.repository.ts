@@ -50,6 +50,12 @@ export class ProductCategoryRepository implements IProductCategoryRepository {
     return this.toDomain(doc);
   }
 
+  async findByProductId(id: string): Promise<ProductCategory[]> {
+    const docs = await this.model.find({ productId: id });
+
+    return docs.map((doc) => this.toDomain(doc));
+  }
+
   async updateOne(
     id: string,
     data: UpdateProductCategoryDto,

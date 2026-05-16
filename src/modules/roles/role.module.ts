@@ -4,17 +4,18 @@
  */
 
 import { RoleService } from "./application/role.service";
-import RoleModel from "./infrastructure/mongoose/role.model";
-import { RoleRepository } from "./infrastructure/mongoose/role.repository";
+import { IRoleRepository } from "./domain/role.repository.interface";
 import { RoleController } from "./presentation/role.controller";
 
-export function createRoleModule() {
-  const repository = new RoleRepository(RoleModel);
-  const service = new RoleService(repository);
+interface deps {
+  roleRepository: IRoleRepository;
+}
+
+export function createRoleModule(deps: deps) {
+  const service = new RoleService(deps.roleRepository);
   const controller = new RoleController(service);
 
   return {
     controller,
-    repository,
   };
 }

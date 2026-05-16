@@ -14,6 +14,5 @@ export function createAdminModule(deps: deps) {
 
   return {
     controller,
-    service,
   };
 }

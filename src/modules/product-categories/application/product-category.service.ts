@@ -47,4 +47,8 @@ export class ProductCategoryService {
   deleteOne(id: string) {
     return this.productCategoryRepository.deleteOne(id);
   }
+
+  findByProductId(productId: string) {
+    return this.productCategoryRepository.findByProductId(productId);
+  }
 }

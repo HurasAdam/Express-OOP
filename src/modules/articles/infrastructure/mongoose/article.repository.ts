@@ -9,7 +9,7 @@ import { CreateArticleDto } from "../../dto/create-article.dto";
 import { UpdateArticleDto } from "../../dto/update-article.dto";
 import { ArticleDocument } from "../article.model";
 
-export class articleRepository implements IArticleRepository {
+export class ArticleRepository implements IArticleRepository {
   private model;
   constructor(model: Model<ArticleDocument>) {
     this.model = model;

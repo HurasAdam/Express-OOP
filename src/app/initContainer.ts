@@ -13,35 +13,53 @@ import { createRoleModule } from "../modules/roles/role.module";
 import { createSessionModule } from "../modules/sessions/session.module";
 import { createTagModule } from "../modules/tags/tag.module";
 import { createUserModule } from "../modules/users/user.module";
+import { initRepositories } from "./initRepositories";
 
 export function initContainer() {
-  const userModule = createUserModule();
-  const sessionModule = createSessionModule();
-  const articleModule = createArticleModule();
-  const productModule = createProductModule();
-  const roleModule = createRoleModule();
-  const productCategoryModule = createProductCategoryModule({
-    productRepository: productModule.repository,
+  const repositories = initRepositories();
+
+  const userModule = createUserModule({
+    userRepository: repositories.userRepository,
   });
+  const sessionModule = createSessionModule({
+    sessionRepository: repositories.sessionRepository,
+  });
+  const articleModule = createArticleModule({
+    articleRepository: repositories.articleRepository,
+  });
+  const productModule = createProductModule({
+    productRepository: repositories.productRepository,
+    productCategoryRepository: repositories.productCategoryRepository,
+  });
+  const roleModule = createRoleModule({
+    roleRepository: repositories.roleRepository,
+  });
+  const productCategoryModule = createProductCategoryModule({
+    productRepository: repositories.productRepository,
+    productCategoryRepository: repositories.productCategoryRepository,
+  });
+
+  //
   const authModule = createAuthModule({
-    userRepository: userModule.repository,
-    sessionRepository: sessionModule.repository,
-    roleRepository: roleModule.repository,
+    userRepository: repositories.userRepository,
+    sessionRepository: repositories.sessionRepository,
+    roleRepository: repositories.roleRepository,
   });
 
   const tagModule = createTagModule({
-    articleRepository: articleModule.repository,
-    userRepository: userModule.repository,
+    tagRepository: repositories.tagRepository,
+    articleRepository: repositories.articleRepository,
+    userRepository: repositories.userRepository,
   });
 
   const adminModule = createAdminModule({
-    userRepository: userModule.repository,
-    roleRepository: roleModule.repository,
+    userRepository: repositories.userRepository,
+    roleRepository: repositories.roleRepository,
   });
 
   const authMiddleware = new AuthMiddleware(
-    userModule.repository,
-    sessionModule.repository,
+    repositories.userRepository,
+    repositories.sessionRepository,
   );
 
   return {

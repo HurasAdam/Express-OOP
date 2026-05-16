@@ -26,5 +26,17 @@ export const createProductCategoryRoutes = (container: Container) => {
     container.productCategory.controller.find,
   );
 
+  router.get(
+    "/:id",
+    container.authGuard.authenticate,
+    container.productCategory.controller.findOne,
+  );
+
+  router.patch(
+    "/",
+    container.authGuard.authenticate,
+    container.productCategory.controller.updateOne,
+  );
+
   return router;
 };

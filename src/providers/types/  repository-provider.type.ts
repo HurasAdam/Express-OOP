@@ -1,0 +1,17 @@
+import { IArticleRepository } from "../../modules/articles/domain/article.repository.interface";
+import { IProductCategoryRepository } from "../../modules/product-categories/domain/product-category.repository.interface";
+import { IProductRepository } from "../../modules/products/domain/product.repository.interface";
+import { IRoleRepository } from "../../modules/roles/domain/role.repository.interface";
+import { ISessionRepository } from "../../modules/sessions/domain/session.repository.interface";
+import { ITagRepository } from "../../modules/tags/domain/tag.repository.interface";
+import { IUserRepository } from "../../modules/users/domain/user.repository.interface";
+
+export interface IRepositoryProvider {
+  userRepository: IUserRepository;
+  sessionRepository: ISessionRepository;
+  roleRepository: IRoleRepository;
+  articleRepository: IArticleRepository;
+  productRepository: IProductRepository;
+  productCategoryRepository: IProductCategoryRepository;
+  tagRepository: ITagRepository;
+}
