@@ -21,6 +21,7 @@ export class ProductRepository implements IProductRepository {
       doc._id.toString(),
       doc.name,
       doc.createdBy.toString(),
+      doc.createdAt,
       doc.labelColor,
     );
   }

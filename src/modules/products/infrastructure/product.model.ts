@@ -7,8 +7,9 @@ import { Document, Schema, Types, model } from "mongoose";
 
 export interface ProductDocument extends Document {
   name: string;
-  createdBy: Types.ObjectId;
   labelColor: string;
+  createdBy: Types.ObjectId;
+  createdAt: Date;
 }
 
 const productSchema = {
