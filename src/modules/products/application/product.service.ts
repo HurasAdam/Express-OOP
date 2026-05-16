@@ -42,7 +42,7 @@ export class ProductService {
     const categories = await this.productCategoryRepository.findByProductId(id);
 
     return {
-      product,
+      ...product,
       categories,
     };
   }
