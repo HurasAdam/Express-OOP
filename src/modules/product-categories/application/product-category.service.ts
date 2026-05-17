@@ -40,7 +40,21 @@ export class ProductCategoryService {
     return this.productCategoryRepository.findOne(id);
   }
 
-  updateOne(id: string, data: UpdateProductCategoryDto) {
+  async updateOne(id: string, data: UpdateProductCategoryDto) {
+    const productCategory = await this.productCategoryRepository.findOne(id);
+    appAssert(productCategory, NOT_FOUND, "Product category not found");
+
+    if (data.name) {
+      const existingProductCategory =
+        await this.productCategoryRepository.findByName(data.name);
+
+      appAssert(
+        !existingProductCategory ||
+          existingProductCategory.id === productCategory.id,
+        CONFLICT,
+        "Product category name already exists",
+      );
+    }
     return this.productCategoryRepository.updateOne(id, data);
   }
 

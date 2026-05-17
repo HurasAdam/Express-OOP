@@ -33,7 +33,7 @@ export const createProductCategoryRoutes = (container: Container) => {
   );
 
   router.patch(
-    "/",
+    "/:id",
     container.authGuard.authenticate,
     container.productCategory.controller.updateOne,
   );
